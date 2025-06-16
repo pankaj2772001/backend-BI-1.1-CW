@@ -12,6 +12,18 @@ const PORT = process.env.PORT || 3000
 
 const Movie = require('./models/movies.model')
 
+
+//cors
+
+const cors = require("cors");
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
 //get all movies
 
 async function getAllMovies(){
