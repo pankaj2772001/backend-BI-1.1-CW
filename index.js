@@ -106,6 +106,44 @@ app.get('/movies/:title', async (req, res) => {
 })
 
 
+
+async function createMovie(newMovie){
+
+    try {
+
+        const movie = new Movie(newMovie)
+        const saveMovie = await movie.save()
+        return saveMovie
+        
+    } catch (error) {
+
+        throw error
+        
+    }
+
+
+}
+
+// createMovie(newMovie)
+
+app.post('/movies', async (req, res) => {
+
+    try {
+
+        const movie = await createMovie(req.body)
+
+        res.status(201).json({message: "Movie added successfully", newMovie: movie})
+        
+    } catch (error) {
+
+        res.status(500).json({error: "Failed to add movie."})
+        
+    }
+    
+    
+})
+
+
 app.listen(PORT, () => {
 
     console.log(`Server is running on port ${PORT}`)
