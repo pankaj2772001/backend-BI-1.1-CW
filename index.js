@@ -132,6 +132,7 @@ app.post('/movies', async (req, res) => {
 
         const movie = await createMovie(req.body)
 
+
         res.status(201).json({message: "Movie added successfully", newMovie: movie})
         
     } catch (error) {
@@ -141,6 +142,42 @@ app.post('/movies', async (req, res) => {
     }
     
     
+})
+
+async function deleteMovie(movieId){
+
+    try {
+
+        const deletedMovie = await Movie.findByIdAndDelete(movieId)
+        
+        return deletedMovie
+        
+    } catch (error) {
+
+        console.log("Failed to delete movie",error)
+        
+    }
+}
+
+app.delete("/movies/:movieId", async (req, res) => {
+
+    try {
+
+        const deletedMovie = await deleteMovie(req.params.movieId)
+
+        if(!deletedMovie){
+
+            res.status(404).json({error: 'Movie not found'})
+        }else{
+
+            res.status(200).json({message: "Movie deleted successfully."})
+        }
+        
+    } catch (error) {
+
+        res.status(500).json({error: "Failed to delete movie"})
+        
+    }
 })
 
 
